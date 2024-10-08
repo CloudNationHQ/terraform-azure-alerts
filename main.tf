@@ -1,7 +1,7 @@
 # azurerm_monitor_metric_alert
 resource "azurerm_monitor_metric_alert" "ma" {
   for_each = {
-    for key, ma in lookup(var.config, "metrics_alert", {}) : key => ma
+    for key, ma in lookup(var.config, "metrics_alerts", {}) : key => ma
   }
 
   name                     = try(each.value.name, "ma-${each.key}")
@@ -82,7 +82,9 @@ resource "azurerm_monitor_metric_alert" "ma" {
 
 # azurerm_monitor_activity_log_alert
 resource "azurerm_monitor_activity_log_alert" "ala" {
-  for_each = lookup(var.config, "activity_log_alert", null) != null ? { default = var.config.activity_log_alert } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "activity_log_alerts", {}) : key => ma
+  }
 
   name                = try(each.value.name, "ala-${each.key}")
   resource_group_name = coalesce(lookup(each.value, "resource_group", null), var.resource_group)
@@ -147,7 +149,9 @@ resource "azurerm_monitor_activity_log_alert" "ala" {
 
 # azurerm_monitor_alert_processing_rule_action_group
 resource "azurerm_monitor_alert_processing_rule_action_group" "aprag" {
-  for_each = lookup(var.config, "alert_processing_rule_action_group", null) != null ? { default = var.config.alert_processing_rule_action_group } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "alert_processing_rule_action_groups", {}) : key => ma
+  }
 
   add_action_group_ids = each.value.add_action_group_ids
   name                 = try(each.value.name, "aprag-${each.key}")
@@ -293,7 +297,9 @@ resource "azurerm_monitor_alert_processing_rule_action_group" "aprag" {
 
 # azurerm_monitor_alert_processing_rule_suppression
 resource "azurerm_monitor_alert_processing_rule_suppression" "aprs" {
-  for_each = lookup(var.config, "alert_processing_rule_suppression", null) != null ? { default = var.config.alert_processing_rule_suppression } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "alert_processing_rule_suppressions", {}) : key => ma
+  }
 
   name                = try(each.value.name, "aprs-${each.key}")
   resource_group_name = coalesce(lookup(each.value, "resource_group", null), var.resource_group)
@@ -439,7 +445,9 @@ resource "azurerm_monitor_alert_processing_rule_suppression" "aprs" {
 
 # azurerm_monitor_alert_prometheus_rule_group
 resource "azurerm_monitor_alert_prometheus_rule_group" "aprg" {
-  for_each = lookup(var.config, "alert_prometheus_rule_group", null) != null ? { default = var.config.alert_prometheus_rule_group } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "alert_prometheus_rule_groups", {}) : key => ma
+  }
 
   name                = try(each.value.name, "aprg-${each.key}")
   location            = coalesce(lookup(each.value, "location", null), var.location)
@@ -451,19 +459,10 @@ resource "azurerm_monitor_alert_prometheus_rule_group" "aprg" {
   interval            = try(each.value.interval, null)
   tags                = try(each.value.tags, var.tags)
 
-  rule {
-    enabled    = false
-    expression = <<EOF
-histogram_quantile(0.99, sum(rate(jobs_duration_seconds_bucket{service="billing-processing"}[5m])) by (job_type))
-EOF
-    record     = "job_type:billing_jobs_duration_seconds:99p5m"
-    labels = {
-      team = "prod"
-    }
-  }
-
   dynamic "rule" {
-    for_each = lookup(each.value, "rule", null) != null ? [each.value.rule] : []
+    for_each = {
+      for key, rule in lookup(each.value, "rules", {}) : key => rule
+    }
     content {
       alert       = try(rule.value.alert, null)
       annotations = try(rule.value.annotations, null)
@@ -495,7 +494,9 @@ EOF
 
 # azurerm_monitor_smart_detector_alert_rule
 resource "azurerm_monitor_smart_detector_alert_rule" "sdar" {
-  for_each = lookup(var.config, "smart_detector_alert_rule", null) != null ? { default = var.config.smart_detector_alert_rule } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "smart_detector_alert_rules", {}) : key => ma
+  }
 
   name                = try(each.value.name, "sdar-${each.key}")
   resource_group_name = coalesce(lookup(each.value, "resource_group", null), var.resource_group)
@@ -520,7 +521,9 @@ resource "azurerm_monitor_smart_detector_alert_rule" "sdar" {
 
 # azurerm_monitor_scheduled_query_rules_alert_v2
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sqra_v2" {
-  for_each = lookup(var.config, "scheduled_query_rules_alert_v2", null) != null ? { default = var.config.scheduled_query_rules_alert_v2 } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "scheduled_query_rules_alert_v2s", {}) : key => ma
+  }
 
   name                = try(each.value.name, "sqra-${each.key}")
   resource_group_name = coalesce(lookup(each.value, "resource_group", null), var.resource_group)
@@ -585,7 +588,7 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sqra_v2" {
     content {
       type = identity.value.type
       identity_ids = concat(
-        try([azurerm_user_assigned_identity.identity["identity"].id], []),
+        try([azurerm_user_assigned_identity.sqra_v2["identity"].id], []),
         lookup(identity.value, "identity_ids", [])
       )
     }
@@ -594,7 +597,9 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "sqra_v2" {
 
 # azurerm_monitor_scheduled_query_rules_log
 resource "azurerm_monitor_scheduled_query_rules_log" "sqrl" {
-  for_each = lookup(var.config, "scheduled_query_rules_log", null) != null ? { default = var.config.scheduled_query_rules_log } : {}
+  for_each = {
+    for key, ma in lookup(var.config, "scheduled_query_rules_logs", {}) : key => ma
+  }
 
   name                    = try(each.value.name, "sqrl-${each.key}")
   location                = coalesce(lookup(each.value, "location", null), var.location)
@@ -623,12 +628,19 @@ resource "azurerm_monitor_scheduled_query_rules_log" "sqrl" {
 }
 
 # user assigned identity
-# user assigned identity
-resource "azurerm_user_assigned_identity" "identity" {
+resource "azurerm_user_assigned_identity" "sqra_v2" {
   for_each = contains(["UserAssigned"], try(var.config.identity.type, "")) ? { "identity" = var.config.identity } : {}
 
   name                = try(each.value.identity.name, "uai-${each.key}")
   resource_group_name = try(each.value.identity.resource_group_name, var.resource_group)
   location            = try(each.value.location, var.location)
   tags                = try(each.value.identity.tags, var.tags)
+}
+
+resource "azurerm_role_assignment" "sqra_v2" {
+  for_each = contains(["UserAssigned"], try(var.config.identity.type, "")) ? { "identity" = var.config.identity } : {}
+
+  scope                = each.value.scope
+  role_definition_name = each.value.role_definition_name
+  principal_id = azurerm_user_assigned_identity.sqra_v2["identity"].id
 }

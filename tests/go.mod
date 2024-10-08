@@ -1,8 +1,8 @@
-module github.com/cloudnationhq/terraform-azure-apim
+module github.com/cloudnationhq/terraform-azure-alerts
 
 go 1.23.1
 
-require github.com/gruntwork-io/terratest v0.47.1
+require github.com/gruntwork-io/terratest v0.47.2
 
 require (
 	cloud.google.com/go v0.110.0 // indirect

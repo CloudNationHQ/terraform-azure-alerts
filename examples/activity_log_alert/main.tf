@@ -53,27 +53,25 @@ module "alerts" {
   source = "../../"
 
   config = {
-    metrics_alerts = {
-      ma1 = {
-        name           = "ma1"
+    activity_log_alerts = {
+      ala1 = {
+        name           = "ala1"
         resource_group = module.rg.groups.demo.name
-        scopes         = [module.storage.account.id]
-        criteria = {
-          metric_namespace = "Microsoft.Storage/storageAccounts"
-          metric_name      = "Transactions"
-          aggregation      = "Total"
-          operator         = "GreaterThan"
-          threshold        = 50
+        location       = module.rg.groups.demo.location
+        scopes         = [module.rg.groups.demo.id]
 
-          dimension = {
-            name     = "ApiName"
-            operator = "Include"
-            values   = ["*"]
-          }
+        criteria = {
+          resource_id    = module.storage.account.id
+          operation_name = "Microsoft.Storage/storageAccounts/write"
+          category       = "Recommendation"
         }
 
-        action_group = {
+        action = {
           action_group_id = module.mag.groups.demo.id
+
+          webhook_properties = {
+            from = "terraform"
+          }
         }
       }
     }

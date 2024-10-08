@@ -21,6 +21,7 @@ func NewTerraformModule(name, path string) *TerraformModule {
 		Options: &terraform.Options{
 			TerraformDir: path,
 			NoColor:      true,
+			Parallelism:  1,
 		},
 	}
 }
