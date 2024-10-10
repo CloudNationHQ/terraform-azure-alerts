@@ -80,7 +80,7 @@ module "aks" {
       name       = "default"
       node_count = 1
       # zones      = [3]
-      vm_size    = "standard_d2_v5"
+      vm_size = "standard_d2_v5"
     }
   }
 }
