@@ -1,6 +1,6 @@
-# API Management Service
+# Azure Monitor Alerts
 
-This terraform module streamlines the setup and management of the Azure API Management service, providing customizable configurations for an API Management service, as well as creating custom domains and application insights and Redis Cache integration.
+This terraform module streamlines the setup and management of the Azure Monitor Alerts, providing customizable configurations for different types of alerts.
 
 ## Goals
 
@@ -24,13 +24,13 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Features
 
-- Create and manage API Management service
-- Make use of custom domains for management, portal, developer portal and scm.
-- Add API's
-- Add an Application Insights instance for logging
-- Add an Azure Cache for Redis for caching
-- Add AAD Identity provider
-- Add products and users
+- Create an Activity Log Alert
+- Create an Alert Processing Rule Action Group
+- Create an Alert Processing Rule Suppression
+- Create an Alert Prometheus Rule Group
+- Create a Metric Alert
+- Create a Scheduled Query Rules Log
+- Create a Smart Detector Alert Rule
 
 ## Requirements
 
@@ -49,16 +49,13 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 | Name | Type |
 | :-- | :-- |
-| [azurerm_api_management](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management) | resource |
-| [azurerm_api_management_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_custom_domain) | resource |
-| [azurerm_api_management_redis_cache](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_redis_cache) | resource |
-| [azurerm_api_management_logger](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_logger) | resource |
-| [azurerm_api_management_api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_api) | resource |
-| [azurerm_api_management_identity_provider_aad](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_identity_provider_aad) | resource |
-| [azurerm_api_management_product](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_product) | resource |
-| [azurerm_api_management_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_api_management_user) | resource |
-| [azurerm_user_assigned_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [azurerm_role_assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_role_assignment) | resource |
+| [azurerm_monitor_metric_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_metric_alert) | resource |
+| [azurerm_monitor_activity_log_alert](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_activity_log_alert) | resource |
+| [azurerm_monitor_alert_processing_rule_action_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_alert_processing_rule_action_group) | resource |
+| [azurerm_monitor_alert_processing_rule_suppression](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_alert_processing_rule_suppression) | resource |
+| [azurerm_monitor_alert_prometheus_rule_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_alert_prometheus_rule_group) | resource |
+| [azurerm_monitor_smart_detector_alert_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_smart_detector_alert_rule) | resource |
+| [azurerm_monitor_scheduled_query_rules_log](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/azurerm_monitor_scheduled_query_rules_log) | resource |
 
 ## Inputs
 
@@ -68,13 +65,6 @@ End-to-end testing is not conducted on these modules, as they are individual com
 | `location` | default azure region to be used  | string | yes |
 | `resource_group` | default resource group to be used | string | yes |
 | `tags` | tags to be added to the resources | map(string) | no |
-
-## Outputs
-
-| Name | Description |
-| :-- | :-- |
-| `config` | contains all api management service configuration |
-| `user_assigned_identities` | contains user assigned identity information |
 
 ## Testing
 
@@ -98,7 +88,7 @@ Full examples detailing all usages, along with integrations with dependency modu
 
 ## Authors
 
-Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-apim/graphs/contributors).
+Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-alerts/graphs/contributors).
 
 ## Contributing
 
@@ -108,10 +98,8 @@ For more information, please see our contribution [guidelines](./CONTRIBUTING.md
 
 ## License
 
-MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/terraform-azure-apim/blob/main/LICENSE) for full details.
+MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/terraform-azure-alerts/blob/main/LICENSE) for full details.
 
 ## References
 
-- [Documentation](https://learn.microsoft.com/en-us/azure/api-management/)
-- [Rest Api](https://learn.microsoft.com/en-us/rest/api/apimanagement/operation-groups?view=rest-apimanagement-2024-05-01)
-- [Rest Api Specs](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement)
+- [Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview)
