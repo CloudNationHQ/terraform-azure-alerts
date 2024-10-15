@@ -69,7 +69,15 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_activity_log_alert"></a> [activity\_log\_alert](#output\_activity\_log\_alert) | contains all activity log alert configuration |
+| <a name="output_alert_processing_rule_action_group"></a> [alert\_processing\_rule\_action\_group](#output\_alert\_processing\_rule\_action\_group) | contains all alert processing rule action group configuration |
+| <a name="output_alert_processing_rule_suppression"></a> [alert\_processing\_rule\_suppression](#output\_alert\_processing\_rule\_suppression) | contains all alert processing rule suppression configuration |
+| <a name="output_alert_prometheus_rule_group"></a> [alert\_prometheus\_rule\_group](#output\_alert\_prometheus\_rule\_group) | contains all alert prometheus rule group configuration |
+| <a name="output_metric_alert"></a> [metric\_alert](#output\_metric\_alert) | contains all metric alert configuration |
+| <a name="output_scheduled_query_rules_log"></a> [scheduled\_query\_rules\_log](#output\_scheduled\_query\_rules\_log) | contains all scheduled query rules log configuration |
+| <a name="output_smart_detector_alert_rule"></a> [smart\_detector\_alert\_rule](#output\_smart\_detector\_alert\_rule) | contains all smart detector alert rule configuration |
 <!-- END_TF_DOCS -->
 
 ## Testing
