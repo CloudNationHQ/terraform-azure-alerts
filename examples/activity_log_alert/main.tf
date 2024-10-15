@@ -50,7 +50,8 @@ module "mag" {
 }
 
 module "alerts" {
-  source = "../../"
+  source  = "cloudnationhq/alerts/azure"
+  version = "~> 1.0"
 
   config = {
     activity_log_alerts = {

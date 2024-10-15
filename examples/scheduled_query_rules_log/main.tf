@@ -49,7 +49,8 @@ module "analytics" {
 }
 
 module "alerts" {
-  source = "../../"
+  source  = "cloudnationhq/alerts/azure"
+  version = "~> 1.0"
 
   config = {
     metrics_alerts = {

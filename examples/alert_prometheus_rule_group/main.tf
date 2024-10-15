@@ -86,7 +86,8 @@ module "aks" {
 }
 
 module "alerts" {
-  source = "../../"
+  source  = "cloudnationhq/alerts/azure"
+  version = "~> 1.0"
 
   config = {
     alert_prometheus_rule_groups = {

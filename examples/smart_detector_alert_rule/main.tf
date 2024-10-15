@@ -50,7 +50,8 @@ module "appi" {
 }
 
 module "alerts" {
-  source = "../../"
+  source  = "cloudnationhq/alerts/azure"
+  version = "~> 1.0"
 
   config = {
     smart_detector_alert_rules = {

@@ -18,7 +18,8 @@ module "rg" {
 }
 
 module "alerts" {
-  source = "../../"
+  source  = "cloudnationhq/alerts/azure"
+  version = "~> 1.0"
 
   config = {
     alert_processing_rule_suppressions = {
