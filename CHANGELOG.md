@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v1.1.0...v1.2.0) (2025-03-19)
+
+
+### Features
+
+* add enabled option for monitor alert processing rule action groups ([#13](https://github.com/CloudNationHQ/terraform-azure-alerts/issues/13)) ([adb83cd](https://github.com/CloudNationHQ/terraform-azure-alerts/commit/adb83cdda9cdfa358bdb49a188813e8c39110949))
+
 ## [1.1.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v1.0.1...v1.1.0) (2025-01-21)
 
 
