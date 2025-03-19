@@ -60,6 +60,10 @@ This terraform module streamlines the setup and management of the Azure Monitor 
 | <a name="output_smart_detector_alert_rule"></a> [smart\_detector\_alert\_rule](#output\_smart\_detector\_alert\_rule) | contains all smart detector alert rule configuration |
 <!-- END_TF_DOCS -->
 
+## Goals
+
+For more information, please see our [goals and non-goals](./GOALS.md).
+
 ## Testing
 
 For more information, please see our testing [guidelines](./TESTING.md)
