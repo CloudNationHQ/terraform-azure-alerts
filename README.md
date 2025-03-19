@@ -2,26 +2,6 @@
 
 This terraform module streamlines the setup and management of the Azure Monitor Alerts, providing customizable configurations for different types of alerts.
 
-## Goals
-
-The main objective is to create a more logic data structure, achieved by combining and grouping related resources together in a complex object.
-
-The structure of the module promotes reusability. It's intended to be a repeatable component, simplifying the process of building diverse workloads and platform accelerators consistently.
-
-A primary goal is to utilize keys and values in the object that correspond to the REST API's structure. This enables us to carry out iterations, increasing its practical value as time goes on.
-
-A last key goal is to separate logic from configuration in the module, thereby enhancing its scalability, ease of customization, and manageability.
-
-## Non-Goals
-
-These modules are not intended to be complete, ready-to-use solutions; they are designed as components for creating your own patterns.
-
-They are not tailored for a single use case but are meant to be versatile and applicable to a range of scenarios.
-
-Security standardization is applied at the pattern level, while the modules include default values based on best practices but do not enforce specific security standards.
-
-End-to-end testing is not conducted on these modules, as they are individual components and do not undergo the extensive testing reserved for complete patterns or solutions.
-
 ## Features
 
 - Create an Activity Log Alert
@@ -79,6 +59,10 @@ End-to-end testing is not conducted on these modules, as they are individual com
 | <a name="output_scheduled_query_rules_log"></a> [scheduled\_query\_rules\_log](#output\_scheduled\_query\_rules\_log) | contains all scheduled query rules log configuration |
 | <a name="output_smart_detector_alert_rule"></a> [smart\_detector\_alert\_rule](#output\_smart\_detector\_alert\_rule) | contains all smart detector alert rule configuration |
 <!-- END_TF_DOCS -->
+
+## Goals
+
+For more information, please see our [goals and non-goals](./GOALS.md).
 
 ## Testing
 
