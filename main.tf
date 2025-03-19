@@ -158,6 +158,7 @@ resource "azurerm_monitor_alert_processing_rule_action_group" "aprag" {
   resource_group_name  = coalesce(lookup(each.value, "resource_group", null), var.resource_group)
   scopes               = each.value.scopes
   description          = try(each.value.description, null)
+  enabled              = try(each.value.enabled, true)
   tags                 = try(each.value.tags, var.tags)
 
   dynamic "condition" {
