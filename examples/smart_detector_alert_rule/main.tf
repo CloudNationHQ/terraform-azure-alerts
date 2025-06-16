@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.13"
+  version = "~> 0.24"
 
   suffix = ["demo", "dev"]
 }
@@ -11,7 +11,7 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
@@ -19,13 +19,13 @@ module "rg" {
 
 module "mag" {
   source  = "cloudnationhq/mag/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
-      name           = "mag-demo-dev-email"
-      resource_group = module.rg.groups.demo.name
-      short_name     = "mag-email"
+      name                = "mag-demo-dev-email"
+      resource_group_name = module.rg.groups.demo.name
+      short_name          = "mag-email"
 
       email_receiver = {
         email1 = {
@@ -51,13 +51,14 @@ module "appi" {
 
 module "alerts" {
   source  = "cloudnationhq/alerts/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   config = {
+    resource_group_name = module.rg.groups.demo.name
+
     smart_detector_alert_rules = {
       sdar1 = {
         name               = "sdar1"
-        resource_group     = module.rg.groups.demo.name
         severity           = "Sev0"
         scope_resource_ids = [module.appi.config.id]
         frequency          = "PT1M"

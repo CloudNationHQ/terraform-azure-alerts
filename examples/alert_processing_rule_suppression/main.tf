@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.13"
+  version = "~> 0.24"
 
   suffix = ["demo", "dev"]
 }
@@ -11,7 +11,7 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
@@ -19,14 +19,15 @@ module "rg" {
 
 module "alerts" {
   source  = "cloudnationhq/alerts/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   config = {
+    resource_group_name = module.rg.groups.demo.name
+
     alert_processing_rule_suppressions = {
       aprs1 = {
-        name           = "aprs1"
-        resource_group = module.rg.groups.demo.name
-        scopes         = [module.rg.groups.demo.id]
+        name   = "aprs1"
+        scopes = [module.rg.groups.demo.id]
 
         condition = {
           target_resource_type = {
@@ -40,8 +41,8 @@ module "alerts" {
         }
 
         schedule = {
-          effective_from  = "2022-01-01T01:02:03"
-          effective_until = "2022-02-02T01:02:03"
+          effective_from  = "2026-01-01T01:02:03"
+          effective_until = "2026-02-02T01:02:03"
           time_zone       = "Central Europe Standard Time"
           recurrence = {
             daily = {
