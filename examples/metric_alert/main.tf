@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.13"
+  version = "~> 0.24"
 
   suffix = ["demo", "dev"]
 }
@@ -11,7 +11,7 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
@@ -19,25 +19,25 @@ module "rg" {
 
 module "storage" {
   source  = "cloudnationhq/sa/azure"
-  version = "~> 2.0"
+  version = "~> 4.0"
 
   storage = {
-    name           = module.naming.storage_account.name_unique
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
+    name                = module.naming.storage_account.name_unique
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
   }
 }
 
 
 module "mag" {
   source  = "cloudnationhq/mag/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
-      name           = "mag-demo-dev-email"
-      resource_group = module.rg.groups.demo.name
-      short_name     = "mag-email"
+      name                = "mag-demo-dev-email"
+      resource_group_name = module.rg.groups.demo.name
+      short_name          = "mag-email"
 
       email_receiver = {
         email1 = {
@@ -51,14 +51,15 @@ module "mag" {
 
 module "alerts" {
   source  = "cloudnationhq/alerts/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   config = {
+    resource_group_name = module.rg.groups.demo.name
+
     metrics_alerts = {
       ma1 = {
-        name           = "ma1"
-        resource_group = module.rg.groups.demo.name
-        scopes         = [module.storage.account.id]
+        name   = "ma1"
+        scopes = [module.storage.account.id]
         criteria = {
           metric_namespace = "Microsoft.Storage/storageAccounts"
           metric_name      = "Transactions"
@@ -73,7 +74,7 @@ module "alerts" {
           }
         }
 
-        action_group = {
+        action = {
           action_group_id = module.mag.groups.demo.id
         }
       }
