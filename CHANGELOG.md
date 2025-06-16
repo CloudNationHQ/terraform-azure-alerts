@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v1.2.0...v2.0.0) (2025-06-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* The data structure changed, causing a recreate on existing resources.
+
+### Features
+
+* small refactor ([#16](https://github.com/CloudNationHQ/terraform-azure-alerts/issues/16)) ([5082194](https://github.com/CloudNationHQ/terraform-azure-alerts/commit/50821940f6a33a5c7185bb895602fbf321bd7e3f))
+
 ## [1.2.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v1.1.0...v1.2.0) (2025-03-19)
 
 
