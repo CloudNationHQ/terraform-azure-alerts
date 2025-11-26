@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.24"
+  version = "~> 0.25"
 
   suffix = ["demo", "dev"]
 }
@@ -55,27 +55,6 @@ module "alerts" {
   config = {
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
-
-    metrics_alerts = {
-      ma1 = {
-        name        = "ma1"
-        scopes      = [module.analytics.workspace.id]
-        frequency   = "PT1M"
-        window_size = "PT5M"
-
-        criteria = {
-          metric_namespace = "Microsoft.OperationalInsights/workspaces"
-          metric_name      = "UsedCapacity"
-          aggregation      = "Average"
-          operator         = "LessThan"
-          threshold        = 10
-        }
-
-        action = {
-          action_group_id = module.mag.groups.demo.id
-        }
-      }
-    }
 
     scheduled_query_rules_logs = {
       sqrl1 = {

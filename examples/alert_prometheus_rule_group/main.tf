@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.24"
+  version = "~> 0.25"
 
   suffix = ["demo", "dev"]
 }
@@ -37,7 +37,7 @@ module "mag" {
   }
 }
 
-module "workspace" {
+module "monitor_workspace" {
   source  = "cloudnationhq/alerts/azure//modules/monitor_workspace"
   version = "~> 2.0"
 
@@ -59,28 +59,44 @@ module "kv" {
   }
 }
 
+module "identity" {
+  source  = "cloudnationhq/uai/azure"
+  version = "~> 2.0"
+
+  config = {
+    name                = module.naming.user_assigned_identity.name
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+  }
+}
+
 module "aks" {
   source  = "cloudnationhq/aks/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   keyvault = module.kv.vault.id
 
   cluster = {
-    name           = module.naming.kubernetes_cluster.name_unique
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
-    depends_on     = [module.kv]
-    profile        = "linux"
-    dns_prefix     = "demo"
+    name                = module.naming.kubernetes_cluster.name_unique
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
+    depends_on          = [module.kv]
+    profile             = "linux"
+    dns_prefix          = "demo"
+
+    generate_ssh_key = {
+      enable = true
+    }
 
     identity = {
-      type = "SystemAssigned"
+      type         = "UserAssigned"
+      identity_ids = [module.identity.config.id]
     }
 
     default_node_pool = {
-      name       = "default"
-      node_count = 1
-      vm_size    = "standard_d2_v5"
+      upgrade_settings = {
+        max_surge = "10%"
+      }
     }
   }
 }

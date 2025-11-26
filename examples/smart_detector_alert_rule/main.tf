@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.24"
+  version = "~> 0.25"
 
   suffix = ["demo", "dev"]
 }
@@ -39,13 +39,13 @@ module "mag" {
 
 module "appi" {
   source  = "cloudnationhq/appi/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   config = {
-    name             = module.naming.application_insights.name
-    resource_group   = module.rg.groups.demo.name
-    location         = module.rg.groups.demo.location
-    application_type = "web"
+    name                = module.naming.application_insights.name
+    resource_group_name = module.rg.groups.demo.name
+    location            = module.rg.groups.demo.location
+    application_type    = "web"
   }
 }
 
