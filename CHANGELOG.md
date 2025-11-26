@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v2.0.0...v2.1.0) (2025-11-26)
+
+
+### Features
+
+* increment all module versions to the latest ([#18](https://github.com/CloudNationHQ/terraform-azure-alerts/issues/18)) ([fed8118](https://github.com/CloudNationHQ/terraform-azure-alerts/commit/fed8118880d3c8d120e700b69fd80e3d562382a3))
+
 ## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v1.2.0...v2.0.0) (2025-06-16)
 
 
