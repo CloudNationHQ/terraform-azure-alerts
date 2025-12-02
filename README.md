@@ -59,23 +59,23 @@ Type:
 
 ```hcl
 object({
-    resource_group_name = optional(string, null)
-    location            = optional(string, null)
+    resource_group_name = optional(string)
+    location            = optional(string)
     tags                = optional(map(string))
     metrics_alerts = optional(map(object({
-      name                     = optional(string, null)
+      name                     = optional(string)
       scopes                   = list(string)
       enabled                  = optional(bool, true)
       auto_mitigate            = optional(bool, true)
-      description              = optional(string, null)
+      description              = optional(string)
       frequency                = optional(string, "PT1M")
       severity                 = optional(number, 3)
-      target_resource_type     = optional(string, null)
-      target_resource_location = optional(string, null)
+      target_resource_type     = optional(string)
+      target_resource_location = optional(string)
       window_size              = optional(string, "PT5M")
       action = optional(object({
         action_group_id    = string
-        webhook_properties = optional(map(string), null)
+        webhook_properties = optional(map(string))
       }), null)
       criteria = optional(object({
         metric_namespace       = string
@@ -98,8 +98,8 @@ object({
         alert_sensitivity        = string
         evaluation_total_count   = optional(number, 4)
         evaluation_failure_count = optional(number, 4)
-        ignore_data_before       = optional(string, null)
-        skip_metric_validation   = optional(bool, null)
+        ignore_data_before       = optional(string)
+        skip_metric_validation   = optional(bool)
         dimension = optional(object({
           name     = string
           operator = string
@@ -113,52 +113,52 @@ object({
       }), null)
     })), {})
     activity_log_alerts = optional(map(object({
-      name        = optional(string, null)
+      name        = optional(string)
       scopes      = list(string)
       enabled     = optional(bool, true)
-      description = optional(string, null)
+      description = optional(string)
       action = optional(object({
         action_group_id    = string
-        webhook_properties = optional(map(string), null)
+        webhook_properties = optional(map(string))
       }), null)
       criteria = optional(object({
         category                = string
-        caller                  = optional(string, null)
-        operation_name          = optional(string, null)
-        resource_provider       = optional(string, null)
-        resource_providers      = optional(list(string), null)
-        resource_type           = optional(string, null)
-        resource_types          = optional(list(string), null)
-        resource_group          = optional(string, null)
-        resource_groups         = optional(list(string), null)
-        resource_id             = optional(string, null)
-        resource_ids            = optional(list(string), null)
-        level                   = optional(string, null)
-        levels                  = optional(list(string), null)
-        status                  = optional(string, null)
-        statuses                = optional(list(string), null)
-        sub_status              = optional(string, null)
-        sub_statuses            = optional(list(string), null)
-        recommendation_type     = optional(string, null)
-        recommendation_category = optional(string, null)
-        recommendation_impact   = optional(string, null)
+        caller                  = optional(string)
+        operation_name          = optional(string)
+        resource_provider       = optional(string)
+        resource_providers      = optional(list(string))
+        resource_type           = optional(string)
+        resource_types          = optional(list(string))
+        resource_group          = optional(string)
+        resource_groups         = optional(list(string))
+        resource_id             = optional(string)
+        resource_ids            = optional(list(string))
+        level                   = optional(string)
+        levels                  = optional(list(string))
+        status                  = optional(string)
+        statuses                = optional(list(string))
+        sub_status              = optional(string)
+        sub_statuses            = optional(list(string))
+        recommendation_type     = optional(string)
+        recommendation_category = optional(string)
+        recommendation_impact   = optional(string)
         resource_health = optional(object({
-          current  = optional(list(string), null)
-          previous = optional(list(string), null)
-          reason   = optional(list(string), null)
+          current  = optional(list(string))
+          previous = optional(list(string))
+          reason   = optional(list(string))
         }), null)
         service_health = optional(object({
-          events    = optional(list(string), null)
-          locations = optional(list(string), null)
-          services  = optional(list(string), null)
+          events    = optional(list(string))
+          locations = optional(list(string))
+          services  = optional(list(string))
         }), null)
       }), null)
     })), {})
     alert_processing_rule_action_groups = optional(map(object({
       add_action_group_ids = list(string)
-      name                 = optional(string, null)
+      name                 = optional(string)
       scopes               = list(string)
-      description          = optional(string, null)
+      description          = optional(string)
       enabled              = optional(bool, true)
       condition = optional(object({
         alert_context = optional(object({
@@ -207,8 +207,8 @@ object({
         }), null)
       }), null)
       schedule = optional(object({
-        effective_from  = optional(string, null)
-        effective_until = optional(string, null)
+        effective_from  = optional(string)
+        effective_until = optional(string)
         time_zone       = optional(string, "UTC")
         recurrence = optional(object({
           daily = optional(object({
@@ -217,21 +217,21 @@ object({
           }), null)
           weekly = optional(object({
             days_of_week = list(string)
-            start_time   = optional(string, null)
-            end_time     = optional(string, null)
+            start_time   = optional(string)
+            end_time     = optional(string)
           }), null)
           monthly = optional(object({
             days_of_month = list(number)
-            start_time    = optional(string, null)
-            end_time      = optional(string, null)
+            start_time    = optional(string)
+            end_time      = optional(string)
           }), null)
         }), null)
       }), null)
     })), {})
     alert_processing_rule_suppressions = optional(map(object({
-      name        = optional(string, null)
+      name        = optional(string)
       scopes      = list(string)
-      description = optional(string, null)
+      description = optional(string)
       enabled     = optional(bool, true)
       condition = optional(object({
         alert_context = optional(object({
@@ -280,8 +280,8 @@ object({
         }), null)
       }), null)
       schedule = optional(object({
-        effective_from  = optional(string, null)
-        effective_until = optional(string, null)
+        effective_from  = optional(string)
+        effective_until = optional(string)
         time_zone       = optional(string, "UTC")
         recurrence = optional(object({
           daily = optional(object({
@@ -290,37 +290,37 @@ object({
           }), null)
           weekly = optional(object({
             days_of_week = list(string)
-            start_time   = optional(string, null)
-            end_time     = optional(string, null)
+            start_time   = optional(string)
+            end_time     = optional(string)
           }), null)
           monthly = optional(object({
             days_of_month = list(number)
-            start_time    = optional(string, null)
-            end_time      = optional(string, null)
+            start_time    = optional(string)
+            end_time      = optional(string)
           }), null)
         }), null)
       }), null)
     })), {})
     alert_prometheus_rule_groups = optional(map(object({
-      name               = optional(string, null)
-      location           = optional(string, null)
+      name               = optional(string)
+      location           = optional(string)
       scopes             = list(string)
-      cluster_name       = optional(string, null)
-      description        = optional(string, null)
-      rule_group_enabled = optional(bool, null)
-      interval           = optional(string, null)
+      cluster_name       = optional(string)
+      description        = optional(string)
+      rule_group_enabled = optional(bool)
+      interval           = optional(string)
       rules = optional(map(object({
-        alert       = optional(string, null)
-        annotations = optional(map(string), null)
+        alert       = optional(string)
+        annotations = optional(map(string))
         enabled     = optional(bool, true)
         expression  = string
-        for         = optional(string, null)
-        labels      = optional(map(string), null)
-        record      = optional(string, null)
-        severity    = optional(number, null)
+        for         = optional(string)
+        labels      = optional(map(string))
+        record      = optional(string)
+        severity    = optional(number)
         action = optional(object({
           action_group_id   = string
-          action_properties = optional(map(string), null)
+          action_properties = optional(map(string))
         }), null)
         alert_resolution = optional(object({
           auto_resolved   = bool
@@ -329,26 +329,26 @@ object({
       })), {})
     })), {})
     smart_detector_alert_rules = optional(map(object({
-      name                = optional(string, null)
+      name                = optional(string)
       detector_type       = string
       scope_resource_ids  = list(string)
       severity            = string
       frequency           = string
-      description         = optional(string, null)
+      description         = optional(string)
       enabled             = optional(bool, true)
-      throttling_duration = optional(string, null)
+      throttling_duration = optional(string)
       action_group = optional(object({
         ids             = list(string)
-        email_subject   = optional(string, null)
-        webhook_payload = optional(string, null)
+        email_subject   = optional(string)
+        webhook_payload = optional(string)
       }), null)
     })), {})
     scheduled_query_rules_logs = optional(map(object({
-      name                    = optional(string, null)
-      location                = optional(string, null)
+      name                    = optional(string)
+      location                = optional(string)
       data_source_id          = string
-      authorized_resource_ids = optional(list(string), null)
-      description             = optional(string, null)
+      authorized_resource_ids = optional(list(string))
+      description             = optional(string)
       enabled                 = optional(bool, true)
       criteria = optional(object({
         metric_name = string
