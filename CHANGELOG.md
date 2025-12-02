@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v2.1.0...v2.2.0) (2025-12-02)
+
+
+### Features
+
+* remove redundant null values ([#20](https://github.com/CloudNationHQ/terraform-azure-alerts/issues/20)) ([e574604](https://github.com/CloudNationHQ/terraform-azure-alerts/commit/e5746044f3ac2f2263587325d7971e1699212094))
+
 ## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v2.0.0...v2.1.0) (2025-11-26)
 
 
