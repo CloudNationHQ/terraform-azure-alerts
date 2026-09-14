@@ -1,13 +1,13 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.25"
+  version = "~> 0.32"
 
   suffix = ["demo", "dev"]
 }
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,12 +19,13 @@ module "rg" {
 
 module "mag" {
   source  = "cloudnationhq/mag/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   groups = {
     demo = {
       name                = "mag-demo-dev-email"
       resource_group_name = module.rg.groups.demo.name
+      location            = "global"
       short_name          = "mag-email"
 
       email_receiver = {
@@ -39,9 +40,9 @@ module "mag" {
 
 module "appi" {
   source  = "cloudnationhq/appi/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
-  config = {
+  insights = {
     name                = module.naming.application_insights.name
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
@@ -51,16 +52,16 @@ module "appi" {
 
 module "alerts" {
   source  = "cloudnationhq/alerts/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
-  config = {
+  alerts = {
     resource_group_name = module.rg.groups.demo.name
 
     smart_detector_alert_rules = {
       sdar1 = {
         name               = "sdar1"
         severity           = "Sev0"
-        scope_resource_ids = [module.appi.config.id]
+        scope_resource_ids = [module.appi.insights.id]
         frequency          = "PT1M"
         detector_type      = "FailureAnomaliesDetector"
 

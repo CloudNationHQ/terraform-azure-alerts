@@ -1,13 +1,13 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.25"
+  version = "~> 0.32"
 
   suffix = ["demo", "dev"]
 }
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,12 +19,13 @@ module "rg" {
 
 module "mag" {
   source  = "cloudnationhq/mag/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   groups = {
     demo = {
       name                = "mag-demo-dev-email"
       resource_group_name = module.rg.groups.demo.name
+      location            = "global"
       short_name          = "mag-email"
 
       email_receiver = {
@@ -39,7 +40,7 @@ module "mag" {
 
 module "monitor_workspace" {
   source  = "cloudnationhq/alerts/azure//modules/monitor_workspace"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   workspace = {
     name                = "mw-demo"
@@ -50,7 +51,7 @@ module "monitor_workspace" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
   vault = {
     name                = module.naming.key_vault.name_unique
@@ -61,9 +62,9 @@ module "kv" {
 
 module "identity" {
   source  = "cloudnationhq/uai/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
-  config = {
+  identity = {
     name                = module.naming.user_assigned_identity.name
     location            = module.rg.groups.demo.location
     resource_group_name = module.rg.groups.demo.name
@@ -72,7 +73,7 @@ module "identity" {
 
 module "aks" {
   source  = "cloudnationhq/aks/azure"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   keyvault = module.kv.vault.id
 
@@ -90,7 +91,7 @@ module "aks" {
 
     identity = {
       type         = "UserAssigned"
-      identity_ids = [module.identity.config.id]
+      identity_ids = [module.identity.identity.id]
     }
 
     default_node_pool = {
@@ -103,9 +104,9 @@ module "aks" {
 
 module "alerts" {
   source  = "cloudnationhq/alerts/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
-  config = {
+  alerts = {
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
 
@@ -136,8 +137,10 @@ module "alerts" {
             for        = "PT5M"
             severity   = 2
 
-            action = {
-              action_group_id = module.mag.groups.demo.id
+            actions = {
+              demo = {
+                action_group_id = module.mag.groups.demo.id
+              }
             }
 
             alert_resolution = {

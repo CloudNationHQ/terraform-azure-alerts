@@ -9,19 +9,19 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.9.3)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [azurerm_monitor_workspace.ws](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_workspace) (resource)
+- [azurerm_monitor_workspace.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_workspace) (resource)
 
 ## Required Inputs
 
@@ -36,9 +36,9 @@ Type:
 ```hcl
 object({
     name                          = string
-    resource_group_name           = optional(string, null)
-    location                      = optional(string, null)
-    public_network_access_enabled = optional(bool, true)
+    resource_group_name           = optional(string)
+    location                      = optional(string)
+    public_network_access_enabled = optional(bool)
     tags                          = optional(map(string))
   })
 ```
