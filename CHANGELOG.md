@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v2.2.0...v3.0.0) (2026-09-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* this change causes recreates
+
+### Features
+
+* azurerm provider 5 upgrade ([#24](https://github.com/CloudNationHQ/terraform-azure-alerts/issues/24)) ([e62ff12](https://github.com/CloudNationHQ/terraform-azure-alerts/commit/e62ff12a986ca21da48d7013b2bda43c450f9567))
+
 ## [2.2.0](https://github.com/CloudNationHQ/terraform-azure-alerts/compare/v2.1.0...v2.2.0) (2025-12-02)
 
 
