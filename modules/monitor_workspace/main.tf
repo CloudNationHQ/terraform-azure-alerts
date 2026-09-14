@@ -1,14 +1,11 @@
-resource "azurerm_monitor_workspace" "ws" {
+resource "azurerm_monitor_workspace" "this" {
 
   resource_group_name = coalesce(
-    lookup(
-      var.workspace, "resource_group_name", null
-    ), var.resource_group_name
+    var.workspace.resource_group_name, var.resource_group_name
   )
 
   location = coalesce(
-    lookup(var.workspace, "location", null
-    ), var.location
+    var.workspace.location, var.location
   )
 
   name                          = var.workspace.name

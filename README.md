@@ -27,31 +27,31 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.9.3)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [azurerm_monitor_activity_log_alert.ala](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) (resource)
-- [azurerm_monitor_alert_processing_rule_action_group.aprag](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_processing_rule_action_group) (resource)
-- [azurerm_monitor_alert_processing_rule_suppression.aprs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_processing_rule_suppression) (resource)
-- [azurerm_monitor_alert_prometheus_rule_group.aprg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_prometheus_rule_group) (resource)
-- [azurerm_monitor_metric_alert.ma](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) (resource)
-- [azurerm_monitor_scheduled_query_rules_log.sqrl](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_scheduled_query_rules_log) (resource)
-- [azurerm_monitor_smart_detector_alert_rule.sdar](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_smart_detector_alert_rule) (resource)
+- [azurerm_monitor_activity_log_alert.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) (resource)
+- [azurerm_monitor_alert_processing_rule_action_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_processing_rule_action_group) (resource)
+- [azurerm_monitor_alert_processing_rule_suppression.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_processing_rule_suppression) (resource)
+- [azurerm_monitor_alert_prometheus_rule_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_prometheus_rule_group) (resource)
+- [azurerm_monitor_metric_alert.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_metric_alert) (resource)
+- [azurerm_monitor_scheduled_query_rules_log.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_scheduled_query_rules_log) (resource)
+- [azurerm_monitor_smart_detector_alert_rule.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_smart_detector_alert_rule) (resource)
 
 ## Required Inputs
 
 The following input variables are required:
 
-### <a name="input_config"></a> [config](#input\_config)
+### <a name="input_alerts"></a> [alerts](#input\_alerts)
 
 Description: Contains all alerts configuration
 
@@ -73,54 +73,54 @@ object({
       target_resource_type     = optional(string)
       target_resource_location = optional(string)
       window_size              = optional(string, "PT5M")
-      action = optional(object({
+      actions = optional(map(object({
         action_group_id    = string
         webhook_properties = optional(map(string))
-      }), null)
-      criteria = optional(object({
+      })), {})
+      criteria = optional(map(object({
         metric_namespace       = string
         metric_name            = string
         aggregation            = string
         operator               = string
         threshold              = number
-        skip_metric_validation = optional(bool, false)
-        dimension = optional(object({
+        skip_metric_validation = optional(bool)
+        dimensions = optional(map(object({
           name     = string
           operator = string
           values   = list(string)
-        }), null)
-      }), null)
+        })), {})
+      })), {})
       dynamic_criteria = optional(object({
         metric_namespace         = string
         metric_name              = string
         aggregation              = string
         operator                 = string
         alert_sensitivity        = string
-        evaluation_total_count   = optional(number, 4)
-        evaluation_failure_count = optional(number, 4)
+        evaluation_total_count   = optional(number)
+        evaluation_failure_count = optional(number)
         ignore_data_before       = optional(string)
         skip_metric_validation   = optional(bool)
-        dimension = optional(object({
+        dimensions = optional(map(object({
           name     = string
           operator = string
           values   = list(string)
-        }), null)
-      }), null)
+        })), {})
+      }))
       application_insights_web_test_location_availability_criteria = optional(object({
         web_test_id           = string
         component_id          = string
         failed_location_count = number
-      }), null)
+      }))
     })), {})
     activity_log_alerts = optional(map(object({
       name        = optional(string)
       scopes      = list(string)
       enabled     = optional(bool, true)
       description = optional(string)
-      action = optional(object({
+      actions = optional(map(object({
         action_group_id    = string
         webhook_properties = optional(map(string))
-      }), null)
+      })), {})
       criteria = optional(object({
         category                = string
         caller                  = optional(string)
@@ -146,13 +146,13 @@ object({
           current  = optional(list(string))
           previous = optional(list(string))
           reason   = optional(list(string))
-        }), null)
+        }))
         service_health = optional(object({
           events    = optional(list(string))
           locations = optional(list(string))
           services  = optional(list(string))
-        }), null)
-      }), null)
+        }))
+      }))
     })), {})
     alert_processing_rule_action_groups = optional(map(object({
       add_action_group_ids = list(string)
@@ -164,69 +164,69 @@ object({
         alert_context = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         alert_rule_id = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         alert_rule_name = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         description = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         monitor_condition = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         monitor_service = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         severity = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         signal_type = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         target_resource = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         target_resource_group = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         target_resource_type = optional(object({
           operator = string
           values   = list(string)
-        }), null)
-      }), null)
+        }))
+      }))
       schedule = optional(object({
         effective_from  = optional(string)
         effective_until = optional(string)
-        time_zone       = optional(string, "UTC")
+        time_zone       = optional(string)
         recurrence = optional(object({
-          daily = optional(object({
+          dailies = optional(map(object({
             start_time = string
             end_time   = string
-          }), null)
-          weekly = optional(object({
+          })), {})
+          weeklies = optional(map(object({
             days_of_week = list(string)
             start_time   = optional(string)
             end_time     = optional(string)
-          }), null)
-          monthly = optional(object({
+          })), {})
+          monthlies = optional(map(object({
             days_of_month = list(number)
             start_time    = optional(string)
             end_time      = optional(string)
-          }), null)
-        }), null)
-      }), null)
+          })), {})
+        }))
+      }))
     })), {})
     alert_processing_rule_suppressions = optional(map(object({
       name        = optional(string)
@@ -237,69 +237,69 @@ object({
         alert_context = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         alert_rule_id = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         alert_rule_name = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         description = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         monitor_condition = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         monitor_service = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         severity = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         signal_type = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         target_resource = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         target_resource_group = optional(object({
           operator = string
           values   = list(string)
-        }), null)
+        }))
         target_resource_type = optional(object({
           operator = string
           values   = list(string)
-        }), null)
-      }), null)
+        }))
+      }))
       schedule = optional(object({
         effective_from  = optional(string)
         effective_until = optional(string)
-        time_zone       = optional(string, "UTC")
+        time_zone       = optional(string)
         recurrence = optional(object({
-          daily = optional(object({
+          dailies = optional(map(object({
             start_time = string
             end_time   = string
-          }), null)
-          weekly = optional(object({
+          })), {})
+          weeklies = optional(map(object({
             days_of_week = list(string)
             start_time   = optional(string)
             end_time     = optional(string)
-          }), null)
-          monthly = optional(object({
+          })), {})
+          monthlies = optional(map(object({
             days_of_month = list(number)
             start_time    = optional(string)
             end_time      = optional(string)
-          }), null)
-        }), null)
-      }), null)
+          })), {})
+        }))
+      }))
     })), {})
     alert_prometheus_rule_groups = optional(map(object({
       name               = optional(string)
@@ -307,8 +307,8 @@ object({
       scopes             = list(string)
       cluster_name       = optional(string)
       description        = optional(string)
-      rule_group_enabled = optional(bool)
-      interval           = optional(string)
+      rule_group_enabled = optional(bool, true)
+      interval           = optional(string, "PT1M")
       rules = optional(map(object({
         alert       = optional(string)
         annotations = optional(map(string))
@@ -318,14 +318,14 @@ object({
         labels      = optional(map(string))
         record      = optional(string)
         severity    = optional(number)
-        action = optional(object({
+        actions = optional(map(object({
           action_group_id   = string
           action_properties = optional(map(string))
-        }), null)
+        })), {})
         alert_resolution = optional(object({
           auto_resolved   = bool
           time_to_resolve = string
-        }), null)
+        }))
       })), {})
     })), {})
     smart_detector_alert_rules = optional(map(object({
@@ -341,7 +341,7 @@ object({
         ids             = list(string)
         email_subject   = optional(string)
         webhook_payload = optional(string)
-      }), null)
+      }))
     })), {})
     scheduled_query_rules_logs = optional(map(object({
       name                    = optional(string)
@@ -352,12 +352,12 @@ object({
       enabled                 = optional(bool, true)
       criteria = optional(object({
         metric_name = string
-        dimension = optional(object({
+        dimensions = optional(map(object({
           name     = string
           operator = string
           values   = list(string)
-        }), null)
-      }), null)
+        })), {})
+      }))
     })), {})
   })
 ```
@@ -443,11 +443,7 @@ To update the module's documentation run `make doc`
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
 
-For more information, please see our contribution [guidelines](./CONTRIBUTING.md). <br><br>
-
-<a href="https://github.com/cloudnationhq/terraform-azure-alerts/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cloudnationhq/terraform-azure-alerts" />
-</a>
+For more information, please see our contribution [guidelines](./CONTRIBUTING.md).
 
 ## License
 

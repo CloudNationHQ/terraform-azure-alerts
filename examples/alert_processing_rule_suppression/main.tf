@@ -1,13 +1,13 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.25"
+  version = "~> 0.32"
 
   suffix = ["demo", "dev"]
 }
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,9 +19,9 @@ module "rg" {
 
 module "alerts" {
   source  = "cloudnationhq/alerts/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
-  config = {
+  alerts = {
     resource_group_name = module.rg.groups.demo.name
 
     alert_processing_rule_suppressions = {
@@ -45,12 +45,16 @@ module "alerts" {
           effective_until = "2026-02-02T01:02:03"
           time_zone       = "Central Europe Standard Time"
           recurrence = {
-            daily = {
-              start_time = "17:00:00"
-              end_time   = "09:00:00"
+            dailies = {
+              nightly = {
+                start_time = "17:00:00"
+                end_time   = "09:00:00"
+              }
             }
-            weekly = {
-              days_of_week = ["Saturday", "Sunday"]
+            weeklies = {
+              weekend = {
+                days_of_week = ["Saturday", "Sunday"]
+              }
             }
           }
         }

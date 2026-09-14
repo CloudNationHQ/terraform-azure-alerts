@@ -2,9 +2,9 @@ variable "workspace" {
   description = "Contains all azure monitor workspace settings"
   type = object({
     name                          = string
-    resource_group_name           = optional(string, null)
-    location                      = optional(string, null)
-    public_network_access_enabled = optional(bool, true)
+    resource_group_name           = optional(string)
+    location                      = optional(string)
+    public_network_access_enabled = optional(bool)
     tags                          = optional(map(string))
   })
 }
